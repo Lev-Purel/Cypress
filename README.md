@@ -23,7 +23,7 @@ The project contains UI tests, API tests (work in progress), work with fixtures 
 - npx cypress open / npx cypress run
 
 ## Structure of the Project
-
+```
 cypress/
 ├─ e2e/
 │ └─ authorization.cy.js
@@ -39,7 +39,7 @@ cypress.config.js
 package-lock.json
 package.json
 README.md
-
+```
 ## Features
 
 - Custom commands for authorisation have been added.
