@@ -7,7 +7,7 @@ The project contains UI tests, API tests (work in progress), work with fixtures 
 
 ## Functionality
 
-- Authorization
+- authorization
 
 ## Tech Stack
 
@@ -42,7 +42,7 @@ README.md
 ```
 ## Features
 
-- Custom commands for authorisation have been added.
+- Custom commands for authorization have been added.
 
 ### Contacts
 
