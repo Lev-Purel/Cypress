@@ -7,7 +7,7 @@ The project contains UI tests, API tests (work in progress), work with fixtures 
 
 ### Functionality
 
-- Авторизация
+- Authorization
 
 ### Tech Stack
 
