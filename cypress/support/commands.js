@@ -29,6 +29,31 @@ Cypress.Commands.add("login", () => {
   cy.visit(baseUrl);
   cy.get('[data-test="username"]').type(Cypress.env("username"));
   cy.get('[data-test="password"]').type(Cypress.env("password"));
-  cy.get('[data-test="login-button"]').click({ force: true });
+  cy.get('[data-test="login-button"]').click();
   cy.url().should("include", "inventory");
+});
+
+Cypress.Commands.add("sortCheck", (type) => {
+  const alphabetSort = { az: 1, za: -1 };
+  const priceSort = { lohi: 1, hilo: -1 };
+
+  const sortBy = (items, dir, mapper) => {
+    const arr = [...items].map(mapper);
+    const expected = [...arr].sort((a, b) =>
+      typeof a === "string" ? dir * a.localeCompare(b) : dir * (a - b)
+    );
+    expect(arr).to.deep.equal(expected);
+  };
+
+  if (type in alphabetSort) {
+    cy.get('[data-test="inventory-item-name"]').then(($items) =>
+      sortBy($items, alphabetSort[type], (el) => el.innerText.trim())
+    );
+  } else if (type in priceSort) {
+    cy.get('[data-test="inventory-item-price"]').then(($items) =>
+      sortBy($items, priceSort[type], (el) =>
+        Number(el.innerText.replace("$", ""))
+      )
+    );
+  }
 });
