@@ -57,3 +57,9 @@ Cypress.Commands.add("sortCheck", (type) => {
     );
   }
 });
+
+Cypress.Commands.add("checkPageContent", (arrayOfElements) => {
+  cy.get(arrayOfElements).each((itm) => {
+    cy.get(itm).should("exist").and("be.visible");
+  });
+});

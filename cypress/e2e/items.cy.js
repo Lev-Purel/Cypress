@@ -2,6 +2,7 @@ const addToCart = '[data-test="add-to-cart-sauce-labs-bike-light"]';
 const cartLink = '[data-test="shopping-cart-link"]';
 const buttons = ".btn_inventory";
 const cartBadge = '[data-test="shopping-cart-badge"]';
+
 describe("Test items functionality", () => {
   beforeEach(() => {
     cy.session(
@@ -19,6 +20,7 @@ describe("Test items functionality", () => {
       failOnStatusCode: false,
     });
   });
+
   it("should test sort", () => {
     const options = ["az", "za", "lohi", "hilo"];
     cy.wrap(options).each((itm) => {
