@@ -1,6 +1,7 @@
 const addToCart = '[data-test="add-to-cart-sauce-labs-bike-light"]';
 const cartLink = '[data-test="shopping-cart-link"]';
-
+const buttons = ".btn_inventory";
+const cartBadge = '[data-test="shopping-cart-badge"]';
 describe("Test items functionality", () => {
   beforeEach(() => {
     cy.session(
@@ -28,9 +29,7 @@ describe("Test items functionality", () => {
 
   it("adds item to cart", () => {
     cy.get(addToCart).click();
-    cy.get('[data-test="shopping-cart-badge"]')
-      .invoke("text")
-      .should("be.equal", "1");
+    cy.get(cartBadge).invoke("text").should("be.equal", "1");
   });
 
   it("removes item from cart", () => {
@@ -50,5 +49,13 @@ describe("Test items functionality", () => {
     cy.get('[data-test="continue"]').click();
     cy.get('[data-test="finish"]').click();
     cy.get('[data-test="complete-header"]').should("be.visible");
+  });
+
+  it("add few items to cart", () => {
+    cy.get(buttons).its("length").as("buttons");
+    cy.get(buttons).click({ multiple: true });
+    cy.get("@buttons").then((count) => {
+      cy.get(cartBadge).invoke("text").should("be.equal", `${count}`);
+    });
   });
 });
