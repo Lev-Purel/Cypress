@@ -7,7 +7,7 @@ module.exports = defineConfig({
       watchForFileChanges: true;
     },
     baseUrl: "https://www.saucedemo.com/",
-    testIsolation: false,
+    testIsolation: true,
   },
   env: {
     username: process.env.USERNAME,

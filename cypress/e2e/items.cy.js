@@ -1,7 +1,7 @@
 const addToCart = '[data-test="add-to-cart-sauce-labs-bike-light"]';
 const cartLink = '[data-test="shopping-cart-link"]';
 
-describe("Test and sort functions", () => {
+describe("Test items functionality", () => {
   beforeEach(() => {
     cy.session(
       "login",
@@ -26,14 +26,14 @@ describe("Test and sort functions", () => {
     });
   });
 
-  it("should test add to chart functionality", () => {
+  it("should test adding to chart functionality", () => {
     cy.get(addToCart).click();
     cy.get('[data-test="shopping-cart-badge"]')
       .invoke("text")
       .should("be.equal", "1");
   });
 
-  it("should test remove item from chart", () => {
+  it("should test removing item from chart", () => {
     cy.get(addToCart).click();
     cy.contains("Button", "Remove").click();
     cy.get(cartLink).click();
