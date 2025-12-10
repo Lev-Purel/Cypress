@@ -45,4 +45,11 @@ describe("Should test authorization", () => {
     cy.get(".error-message-container").should("be.empty");
     cy.url().should("include", "inventory");
   });
+
+  it("should test logout", () => {
+    cy.login();
+    cy.get(".bm-burger-button").click();
+    cy.get('[data-test="logout-sidebar-link"]').click();
+    cy.url().should("not.include", "inventory");
+  });
 });
