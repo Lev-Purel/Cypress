@@ -18,7 +18,7 @@ describe("Test items functionality", () => {
       failOnStatusCode: false,
     });
   });
-  it("should test sort functionality", () => {
+  it("should test sort", () => {
     const options = ["az", "za", "lohi", "hilo"];
     cy.wrap(options).each((itm) => {
       cy.get('[data-test="product-sort-container"]').select(`${itm}`);
@@ -26,21 +26,21 @@ describe("Test items functionality", () => {
     });
   });
 
-  it("should test adding to chart functionality", () => {
+  it("adds item to cart", () => {
     cy.get(addToCart).click();
     cy.get('[data-test="shopping-cart-badge"]')
       .invoke("text")
       .should("be.equal", "1");
   });
 
-  it("should test removing item from chart", () => {
+  it("removes item from cart", () => {
     cy.get(addToCart).click();
     cy.contains("Button", "Remove").click();
     cy.get(cartLink).click();
     cy.get('[data-test="inventory-item"]').should("not.exist");
   });
 
-  it("should test buying item", () => {
+  it("completes purchase", () => {
     cy.get(addToCart).click();
     cy.get(cartLink).click();
     cy.get('[data-test="checkout"]').click();
