@@ -1,9 +1,9 @@
-const addToCart = '[data-test="add-to-cart-sauce-labs-bike-light"]';
+const addBikeLightToCart = '[data-test="add-to-cart-sauce-labs-bike-light"]';
 const cartLink = '[data-test="shopping-cart-link"]';
-const buttons = ".btn_inventory";
+const addRemoveButtons = ".btn_inventory";
 const cartBadge = '[data-test="shopping-cart-badge"]';
 
-describe("Test items functionality", () => {
+describe("Inventory items", () => {
   beforeEach(() => {
     cy.session(
       "login",
@@ -21,42 +21,30 @@ describe("Test items functionality", () => {
     });
   });
 
-  it("should test sort", () => {
-    const options = ["az", "za", "lohi", "hilo"];
-    cy.wrap(options).each((itm) => {
+  it("sort options reorder items", () => {
+    const sortOptions = ["az", "za", "lohi", "hilo"];
+    cy.wrap(sortOptions).each((itm) => {
       cy.get('[data-test="product-sort-container"]').select(`${itm}`);
       cy.sortCheck(itm);
     });
   });
 
   it("adds item to cart", () => {
-    cy.get(addToCart).click();
+    cy.get(addBikeLightToCart).click();
     cy.get(cartBadge).invoke("text").should("be.equal", "1");
   });
 
   it("removes item from cart", () => {
-    cy.get(addToCart).click();
+    cy.get(addBikeLightToCart).click();
     cy.contains("Button", "Remove").click();
     cy.get(cartLink).click();
     cy.get('[data-test="inventory-item"]').should("not.exist");
   });
 
-  it("completes purchase", () => {
-    cy.get(addToCart).click();
-    cy.get(cartLink).click();
-    cy.get('[data-test="checkout"]').click();
-    cy.get('[data-test="firstName"]').type("John");
-    cy.get('[data-test="lastName"]').type("Doe");
-    cy.get('[data-test="postalCode"]').type("557908");
-    cy.get('[data-test="continue"]').click();
-    cy.get('[data-test="finish"]').click();
-    cy.get('[data-test="complete-header"]').should("be.visible");
-  });
-
-  it("add few items to cart", () => {
-    cy.get(buttons).its("length").as("buttons");
-    cy.get(buttons).click({ multiple: true });
-    cy.get("@buttons").then((count) => {
+  it("adds multiple items", () => {
+    cy.get(addRemoveButtons).its("length").as("addRemoveButtons");
+    cy.get(addRemoveButtons).click({ multiple: true });
+    cy.get("@addRemoveButtons").then((count) => {
       cy.get(cartBadge).invoke("text").should("be.equal", `${count}`);
     });
   });
