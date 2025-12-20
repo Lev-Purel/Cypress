@@ -8,5 +8,8 @@
     "cy:api": "cypress open --e2e --config specPattern=\"cypress/e2e/api/**/*.cy.js\"",
     "cy:run:ui": "cypress run --spec \"cypress/e2e/ui/**/*.cy.js\"",
     "cy:run:api": "cypress run --spec \"cypress/e2e/api/**/*.cy.js\""
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1"
   }
 }
