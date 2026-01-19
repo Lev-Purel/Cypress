@@ -1,20 +1,17 @@
 import createUser from "./factories/user.factory";
 
-Cypress.Commands.add(
-  "createUser",
-  (overrides = {}) => {
-    const baseUrl = Cypress.config("baseUrl");
-    const user = { ...createUser(), ...overrides };
-    return cy
-      .request({
-        method: "POST",
-        url: baseUrl.concat("/user"),
+Cypress.Commands.add("createUser", (overrides = {}) => {
+  const baseUrl = Cypress.config("baseUrl");
+  const user = { ...createUser(), ...overrides };
+  return cy
+    .request({
+      method: "POST",
+      url: baseUrl.concat("/user"),
 
-        body: user,
-      })
-      .then((res) => res.body);
-  },
-);
+      body: user,
+    })
+    .then((res) => res.body);
+});
 
 Cypress.Commands.add("getUserByUsername", (username) => {
   const baseUrl = Cypress.config("baseUrl");
