@@ -60,6 +60,5 @@ module.exports = defineConfig({
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
     apiBaseUrl: process.env.API_BASE_URL,
-    API_TOKEN: process.env.API_TOKEN,
   },
 });
