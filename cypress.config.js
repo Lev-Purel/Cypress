@@ -1,5 +1,6 @@
 const { defineConfig } = require("cypress");
 const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 require("dotenv").config({ override: true });
 
 const uiBaseUrl = "https://www.saucedemo.com/";
@@ -9,6 +10,7 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       const ajv = new Ajv({ allErrors: true, strict: false });
+      addFormats(ajv);
 
       on("task", {
         validateSchema({ schema, data }) {
