@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("login", () => {
+Cypress.Commands.add("loginUi", () => {
   const baseUrl = Cypress.config("baseUrl");
   cy.visit(baseUrl);
   cy.get('[data-test="username"]').type(Cypress.env("username"));
@@ -40,20 +40,20 @@ Cypress.Commands.add("sortCheck", (type) => {
   const sortBy = (items, dir, mapper) => {
     const arr = [...items].map(mapper);
     const expected = [...arr].sort((a, b) =>
-      typeof a === "string" ? dir * a.localeCompare(b) : dir * (a - b)
+      typeof a === "string" ? dir * a.localeCompare(b) : dir * (a - b),
     );
     expect(arr).to.deep.equal(expected);
   };
 
   if (type in alphabetSort) {
     cy.get('[data-test="inventory-item-name"]').then(($items) =>
-      sortBy($items, alphabetSort[type], (el) => el.innerText.trim())
+      sortBy($items, alphabetSort[type], (el) => el.innerText.trim()),
     );
   } else if (type in priceSort) {
     cy.get('[data-test="inventory-item-price"]').then(($items) =>
       sortBy($items, priceSort[type], (el) =>
-        Number(el.innerText.replace("$", ""))
-      )
+        Number(el.innerText.replace("$", "")),
+      ),
     );
   }
 });

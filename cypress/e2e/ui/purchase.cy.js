@@ -13,13 +13,13 @@ describe("Purchase tests", () => {
     cy.session(
       "login",
       () => {
-        cy.login();
+        cy.loginUi();
       },
       {
         validate() {
           cy.url().should("include", "inventory");
         },
-      }
+      },
     );
     cy.visit(Cypress.config("baseUrl").concat("inventory.html"), {
       failOnStatusCode: false,
@@ -55,7 +55,7 @@ describe("Purchase tests", () => {
     cy.get('[data-test="inventory-item-price"]')
       .then(($items) => {
         const prices = [...$items].map(($itm) =>
-          parseFloat($itm.innerText.replace("$", ""))
+          parseFloat($itm.innerText.replace("$", "")),
         );
         return prices.reduce((sum, value) => sum + value, 0);
       })
