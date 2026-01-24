@@ -47,7 +47,7 @@ describe("Should test authorization", () => {
   });
 
   it("should test logout", () => {
-    cy.login();
+    cy.loginUi();
     cy.get(".bm-burger-button").click();
     cy.get('[data-test="logout-sidebar-link"]').click();
     cy.url().should("not.include", "inventory");

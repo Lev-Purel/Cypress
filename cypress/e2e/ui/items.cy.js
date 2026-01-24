@@ -8,13 +8,13 @@ describe("Inventory items", () => {
     cy.session(
       "login",
       () => {
-        cy.login();
+        cy.loginUi();
       },
       {
         validate() {
           cy.url().should("include", "inventory");
         },
-      }
+      },
     );
     cy.visit(Cypress.config("baseUrl").concat("inventory.html"), {
       failOnStatusCode: false,
