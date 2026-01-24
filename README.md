@@ -1,67 +1,89 @@
 # Portfolio QA Automation (Cypress)
 
-## Description
+## Overview
 
-Auto tests written to demonstrate Cypress skills.
-The project contains UI tests, API tests (work in progress), work with fixtures (work in progress), and CI pipeline (work in progress).
+- UI tests for https://www.saucedemo.com/: login/logout, product sorting, cart operations, purchase flow, page content checks.
+- API tests for Restful-Booker: auth + full booking CRUD (create/read/update/partial update/delete) with contract validation via Ajv/ajv-formats.
+- Data factories, JSON-schema fixtures, custom Cypress commands, baseUrl switching for UI/API.
 
-## Functionality
+## Stack
 
-- test authorization
-- sorting items A-Z, Z-A, high price - low price, low price - high price
-- adding item to cart
-- removing item from cart
-- buying item
+- Cypress 15 (E2E UI + API)
+- Ajv 8 + ajv-formats (JSON Schema validation)
+- Node 22, dotenv
 
-## Tech Stack
+## Setup
 
-- Cypress 15
-- Node 22
-
-## Prerequisites
-
-- Node 22, npm installed
-
-## How to run the Project
-
-- git clone https://github.com/Lev-Purel/Cypress.git
-- npm install
-- Create a file named .env in the project root and add the following environment variables:
+1. Install deps: `npm install`
+2. Create `.env` (or copy `.env.sample`):
 
 ```
-USERNAME=your_username
+USERNAME=your_username            # saucedemo creds
 PASSWORD=your_password
+API_BASE_URL=https://restful-booker.herokuapp.com
+API_TOKEN=your_api_token          # optional, if you use direct auth
 ```
 
-Replace your_username and your_password with your actual credentials.
+## Scripts
 
-- npx cypress open / npx cypress run
+- `npm run cy:ui` — open Cypress with UI specs.
+- `npm run cy:api` — open Cypress with API specs.
+- `npm run cy:run:ui` / `npm run cy:run:api` — headless runs.
 
-## Structure of the Project
+## Test coverage
+
+**UI (Saucedemo)**
+
+- `authorization.cy.js` — positive/negative login, logout.
+- `items.cy.js` — sorts A→Z, Z→A, price low→high, high→low; add/remove from cart.
+- `pageContent.cy.js` — basic content and navigation checks.
+- `purchase.cy.js` — purchase flow with form filling and final confirmation.
+
+**API (Restful-Booker)**
+
+- `auth.cy.js` — obtain token.
+- `booking.cy.js` — list bookings, create with schema validation, get by id, full update, partial update, delete, verify 404 after delete.
+- Schemas: `cypress/fixtures/api/*.json`, validated via `cy.task("validateSchema", { schema, data })` (Ajv + formats).
+- Data: factory `cypress/support/api/factories/booking.factory.js` generates random valid bookings.
+
+## How to run
+
+- UI: `npm run cy:ui` (or `npm run cy:run:ui`).
+- API: `npm run cy:api` (or `npm run cy:run:api`) with `API_BASE_URL` set in `.env`.
+- Default `baseUrl` for UI is saucedemo; for API it is taken from `API_BASE_URL`.
+
+## Structure
 
 ```
 cypress/
   e2e/
-    authorization.cy.js
-    items.cy.js
+    ui/
+      authorization.cy.js
+      items.cy.js
+      pageContent.cy.js
+      purchase.cy.js
+    api/
+      auth.cy.js
+      booking.cy.js
   fixtures/
-    example.json
+    api/
+      create.booking.entity.schem.json
+      get.booking.entity.schem.json
+      get.bookings.entity.schem.json
   support/
-    commands.js
+    ui/
+      commands.js
+    api/
+      auth.commands.js
+      booking.commands.js
+      factories/
+        booking.factory.js
     e2e.js
-.env
-.env.sample
-.gitignore
 cypress.config.js
-package-lock.json
+.env.sample
 package.json
-README.md
 ```
 
-## Features
-
-- Custom commands for authorization have been added.
-
-### Contacts
+## Contacts
 
 email: [levpourel0@gmail.com](mailto:levpourel0@gmail.com)
