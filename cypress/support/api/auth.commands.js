@@ -12,6 +12,6 @@ Cypress.Commands.add("login", (body) => {
     })
     .then((response) => {
       const token = response.body.token;
-      return token;
+      return { token, response };
     });
 });

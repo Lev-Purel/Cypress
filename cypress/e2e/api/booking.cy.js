@@ -1,9 +1,8 @@
 import createBooking from "../../support/api/factories/booking.factory";
-// const toISODate = (d) => d.toISOString().split("T")[0];
 const toISODate = (d) => {
   if (!d) throw new Error("toISODate: date is undefined/null");
   if (d instanceof Date) return d.toISOString().split("T")[0];
-  if (typeof d === "string") return d.split("T")[0]; // "YYYY-MM-DD" или ISO
+  if (typeof d === "string") return d.split("T")[0];
   throw new Error(`toISODate: unsupported type ${typeof d}`);
 };
 
@@ -14,8 +13,11 @@ describe("Booking spec", () => {
   before(() => {
     booking = createBooking();
     cy.fixture("api/get.bookings.entity.schem.json").as("getBookingsSchema");
-    cy.login({ username: "admin", password: "password123" }).then((itm) => {
-      token = itm;
+    cy.login({
+      username: Cypress.env("api_username"),
+      password: Cypress.env("api_password"),
+    }).then((itm) => {
+      token = itm.token;
     });
   });
   it("get All Bookings", () => {
