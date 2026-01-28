@@ -49,4 +49,49 @@ describe("Login spec", () => {
       });
     });
   });
+
+  it("negative: empty fields", () => {
+    cy.get("@authSchema").then((schema) => {
+      cy.login({
+        username: "",
+        password: "",
+      }).then((res) => {
+        expect(res.response.status).to.equal(200);
+        expect(res.response.body.reason).to.include("Bad credentials");
+
+        cy.task("validateSchema", {
+          schema,
+          data: res.response.body,
+        }).should("equal", true);
+      });
+    });
+  });
+
+  it("negative: login without data", () => {
+    cy.get("@authSchema").then((schema) => {
+      cy.login({}).then((res) => {
+        expect(res.response.status).to.equal(200);
+        expect(res.response.body.reason).to.include("Bad credentials");
+
+        cy.task("validateSchema", {
+          schema,
+          data: res.response.body,
+        }).should("equal", true);
+      });
+    });
+  });
+
+  it("negative: login with invalid type data", () => {
+    cy.get("@authSchema").then((schema) => {
+      cy.login({ username: 123, password: true }).then((res) => {
+        expect(res.response.status).to.equal(200);
+        expect(res.response.body.reason).to.include("Bad credentials");
+
+        cy.task("validateSchema", {
+          schema,
+          data: res.response.body,
+        }).should("equal", true);
+      });
+    });
+  });
 });
