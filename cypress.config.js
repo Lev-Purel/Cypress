@@ -4,7 +4,7 @@ const addFormats = require("ajv-formats");
 require("dotenv").config({ override: true });
 
 const uiBaseUrl = "https://www.saucedemo.com/";
-const apiBaseUrl = process.env.API_BASE_URL || "https://api.example.com";
+const apiBaseUrl = "https://restful-booker.herokuapp.com";
 
 module.exports = defineConfig({
   e2e: {
@@ -34,12 +34,24 @@ module.exports = defineConfig({
           : uiBaseUrl;
       };
 
+      const getSpecFromArgv = () => {
+        const specFlagIndex = process.argv.indexOf("--spec");
+        if (specFlagIndex !== -1) return process.argv[specFlagIndex + 1];
+        const withEqual = process.argv.find((arg) => arg.startsWith("--spec="));
+        if (withEqual) return withEqual.split("=", 2)[1];
+        return null;
+      };
+
+      if (process.env.CYPRESS_API_RUN === "true") {
+        config.baseUrl = apiBaseUrl;
+        return config;
+      }
+
       config.baseUrl = uiBaseUrl;
 
-      const specArgIndex = process.argv.indexOf("--spec");
-      if (specArgIndex !== -1) {
-        const spec = process.argv[specArgIndex + 1];
-        const maybeBase = pickBase(spec);
+      const specFromCli = getSpecFromArgv();
+      if (specFromCli) {
+        const maybeBase = pickBase(specFromCli);
         if (maybeBase) config.baseUrl = maybeBase;
       } else {
         const patterns = Array.isArray(config.specPattern)
@@ -54,7 +66,10 @@ module.exports = defineConfig({
       return config;
     },
     supportFile: "cypress/support/e2e.js",
-    specPattern: "cypress/e2e/ui/**/*.cy.js",
+    specPattern: [
+      "cypress/e2e/ui/**/*.cy.js",
+      "cypress/e2e/api/**/*.cy.js",
+    ],
     baseUrl: uiBaseUrl,
     testIsolation: true,
   },

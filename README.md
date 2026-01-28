@@ -6,6 +6,12 @@
 - API tests for Restful-Booker: auth + full booking CRUD (create/read/update/partial update/delete) with contract validation via Ajv/ajv-formats.
 - Data factories, JSON-schema fixtures, custom Cypress commands, baseUrl switching for UI/API.
 
+## Test bench limitations (important for review)
+
+- Public Restful-Booker is used. It does not validate input data and often responds with 500 for any invalid payload; if the resource is missing, it returns 404.
+- Negative API tests record the actual behavior of the stand (500/404), not the ideal contract (400 with a detailed error).
+- If these tests are run against another API that validates correctly, the expected statuses need to be adjusted (for example, 400 for a bad request) and error structure checks need to be enabled.
+
 ## Stack
 
 - Cypress 15 (E2E UI + API)
@@ -21,7 +27,6 @@
 USERNAME=your_username            # saucedemo creds
 PASSWORD=your_password
 API_BASE_URL=https://restful-booker.herokuapp.com
-API_TOKEN=your_api_token          # optional, if you use direct auth
 ```
 
 ## Scripts
@@ -29,6 +34,13 @@ API_TOKEN=your_api_token          # optional, if you use direct auth
 - `npm run cy:ui` — open Cypress with UI specs.
 - `npm run cy:api` — open Cypress with API specs.
 - `npm run cy:run:ui` / `npm run cy:run:api` — headless runs.
+
+## CI/CD
+
+- GitHub Actions: `.github/workflows/ci.yml` запускает два джоба — API и UI (headless). Кэш npm включён.
+- Секреты для API: `API_BASE_URL`, `API_USER`, `API_PASSWORD` (Restful-Booker).
+- Секреты для UI: `SAUCE_USERNAME`, `SAUCE_PASSWORD` (учётки saucedemo).
+- Видео/скриншоты Cypress публикуются как artifacts даже при падении.
 
 ## Test coverage
 
