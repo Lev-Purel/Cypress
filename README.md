@@ -39,10 +39,10 @@ API_TOKEN=your_api_token          # optional, if you use direct auth
 - `pageContent.cy.js` — basic content and navigation checks.
 - `purchase.cy.js` — purchase flow with form filling and final confirmation.
 
-**API (Restful-Booker)**
+**API (Restful-Booker)**,
 
-- `auth.cy.js` — obtain token.
-- `booking.cy.js` — list bookings, create with schema validation, get by id, full update, partial update, delete, verify 404 after delete.
+- `auth.cy.js` — obtain token. Negative cases : login with invalid Credentials, empty fields, login without body, login with invalid type data
+- `booking.cy.js` — list bookings, create with schema validation, get by id, full update, partial update, delete, verify 404 after delete. Negative cases: create Booking with invalid firstname, create Booking with invalid bookingdates, create Booking with invalid depositpaid, create Booking with invalid totalprice,  get Booking with indalid ID, update Booking with invalid data, partually Update Booking with invalid data -     This case has been omitted due to a bug on the resource. 
 - Schemas: `cypress/fixtures/api/*.json`, validated via `cy.task("validateSchema", { schema, data })` (Ajv + formats).
 - Data: factory `cypress/support/api/factories/booking.factory.js` generates random valid bookings.
 
