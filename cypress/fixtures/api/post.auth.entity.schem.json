@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "additionalProperties": true,
+  "oneOf": [
+    {
+      "required": ["token"],
+      "properties": {
+        "token": { "type": "string" }
+      }
+    },
+    {
+      "required": ["reason"],
+      "properties": {
+        "reason": { "type": "string" }
+      }
+    }
+  ]
+}

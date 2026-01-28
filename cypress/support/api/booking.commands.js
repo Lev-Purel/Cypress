@@ -9,7 +9,7 @@ Cypress.Commands.add("getBookingsIds", () => {
   });
 });
 
-Cypress.Commands.add("createBooking", (booking) => {
+Cypress.Commands.add("createBooking", (booking, failOnStatusCode = true) => {
   return cy
     .request({
       method: "POST",
@@ -18,8 +18,11 @@ Cypress.Commands.add("createBooking", (booking) => {
         "Content-Type": "application/json",
       },
       body: booking,
+      failOnStatusCode,
     })
-    .then((res) => res.body);
+    .then((res) => {
+      return { booking: res.body, response: res };
+    });
 });
 
 Cypress.Commands.add("getBookingById", (id, statusCode = true) => {
@@ -33,14 +36,18 @@ Cypress.Commands.add("getBookingById", (id, statusCode = true) => {
   });
 });
 
-Cypress.Commands.add("updateBookingById", (id, token, body) => {
-  return cy.request({
-    method: "PUT",
-    url: `${baseUrl}/booking/${id}`,
-    headers: { Cookie: `token=${token}` },
-    body,
-  });
-});
+Cypress.Commands.add(
+  "updateBookingById",
+  (id, token, body, failOnStatusCode = true) => {
+    return cy.request({
+      method: "PUT",
+      url: `${baseUrl}/booking/${id}`,
+      headers: { Cookie: `token=${token}` },
+      body,
+      failOnStatusCode,
+    });
+  },
+);
 
 Cypress.Commands.add("partuallyUpdateBookingById", (id, token, body) => {
   return cy.request({

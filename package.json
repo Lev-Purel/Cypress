@@ -5,10 +5,10 @@
     "dotenv": "^17.2.3"
   },
   "scripts": {
-    "cy:ui": "cypress open --e2e",
+    "cy:ui": "cypress open --e2e --config specPattern=\"cypress/e2e/ui/**/*.cy.js\"",
     "cy:api": "cypress open --e2e --config specPattern=\"cypress/e2e/api/**/*.cy.js\"",
     "cy:run:ui": "cypress run --spec \"cypress/e2e/ui/**/*.cy.js\"",
-    "cy:run:api": "cypress run --spec \"cypress/e2e/api/**/*.cy.js\""
+    "cy:run:api": "set CYPRESS_API_RUN=true&& cypress run --spec \"cypress/e2e/api/**/*.cy.js\""
   },
   "devDependencies": {
     "ajv": "^8.17.1"
